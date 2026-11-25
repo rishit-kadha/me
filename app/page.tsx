@@ -389,9 +389,8 @@ export default function Page() {
           />
 
           <div className="surface-panel overflow-hidden rounded-[16px]">
-            <div className="grid grid-cols-1 md:grid-cols-12">
+            <div className="grid grid-cols-1 md:grid-cols-2">
               {profile.stack.map((group, idx) => {
-                const isWide = idx === 0 || idx === 2
                 const borderClasses =
                   idx === 0
                     ? ''
@@ -401,32 +400,40 @@ export default function Page() {
                         ? 'border-t border-[var(--hairline)]'
                         : 'border-t border-[var(--hairline)] md:border-l'
 
+                const isCompactFour = group.items.length === 4
+
                 return (
                   <div
                     key={group.category}
-                    className={`p-5 ${isWide ? 'md:col-span-7' : 'md:col-span-5'} ${borderClasses}`}
+                    className={`flex flex-col p-5 ${borderClasses}`}
                   >
                     <div className="flex items-start justify-between gap-4">
-                      <div className="flex items-center gap-2.5">
-                        <span className="text-[var(--text-muted)]">
+                      <div className="flex items-start gap-2.5">
+                        <span className="mt-0.5 text-[var(--text-muted)]">
                           <SkillIcon icon={group.icon} />
                         </span>
                         <div>
-                          <h3 className="text-sm font-medium text-[var(--text-primary)]">
+                          <h3 className="text-sm leading-5 font-medium text-[var(--text-primary)]">
                             {group.category}
                           </h3>
-                          <p className="text-xs text-[var(--text-muted)]">
+                          <p className="mt-0.5 text-xs leading-4 text-[var(--text-muted)]">
                             {group.subtitle}
                           </p>
                         </div>
                       </div>
 
-                      <span className="font-mono text-xs text-[var(--text-muted)] tabular-nums">
+                      <span className="font-mono text-xs leading-5 text-[var(--text-muted)] tabular-nums">
                         {group.items.length}
                       </span>
                     </div>
 
-                    <ul className="mt-4 flex flex-wrap gap-2">
+                    <ul
+                      className={
+                        isCompactFour
+                          ? 'mt-5 grid grid-cols-2 gap-2'
+                          : 'mt-5 flex flex-wrap gap-2'
+                      }
+                    >
                       {group.items.map((skill) => (
                         <li
                           key={skill}
